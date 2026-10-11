@@ -751,4 +751,90 @@ document.querySelectorAll(".photo").forEach((frame) => {
     }
 
     if (imageURL) URL.revokeObjectURL(im
+                                         
+if (imageURL) URL.revokeObjectURL(imageURL);
+    imageURL = URL.createObjectURL(file);
+    preview.src = imageURL;
+    preview.style.display = "block";
+  });
+});
 
+function openLightbox(src) {
+  lightboxImage.src = src;
+  lightbox.classList.add("active");
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+}
+
+lightbox.addEventListener("click", function (event) {
+  if (event.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeLightbox();
+  }
+});
+
+const musicInput = document.getElementById("musicInput");
+const audioPlayer = document.getElementById("audioPlayer");
+const musicButton = document.getElementById("musicButton");
+
+let musicURL = null;
+
+musicButton.addEventListener("click", function () {
+  musicInput.click();
+});
+
+musicInput.addEventListener("change", function () {
+  const file = musicInput.files[0];
+
+  if (!file) return;
+
+  if (musicURL) {
+    URL.revokeObjectURL(musicURL);
+  }
+
+  musicURL = URL.createObjectURL(file);
+  audioPlayer.src = musicURL;
+  audioPlayer.style.display = "block";
+  audioPlayer.load();
+});
+
+const disc = document.getElementById("musicDisc");
+
+disc.addEventListener("click", function () {
+  if (audioPlayer.paused) {
+    audioPlayer.play().catch(function () {
+      alert("Please choose a music file first.");
+    });
+    disc.classList.add("playing");
+  } else {
+    audioPlayer.pause();
+    disc.classList.remove("playing");
+  }
+});
+
+audioPlayer.addEventListener("play", function () {
+  disc.classList.add("playing");
+});
+
+audioPlayer.addEventListener("pause", function () {
+  disc.classList.remove("playing");
+});
+
+audioPlayer.addEventListener("ended", function () {
+  disc.classList.remove("playing");
+});
+
+showScreen("welcome");
+  
+  <script>
+    // Your JavaScript code goes here
+  </script>
+</body>
+</html>

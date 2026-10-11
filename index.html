@@ -1,1 +1,147 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Birthday Dream ♡</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Georgia,serif;color:#594574;background:radial-gradient(ellipse at top,#fffaff,#eee5ff 55%,#d9c8f4);overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+main{max-width:650px;margin:auto;padding:25px 18px}
+.screen{display:none;min-height:90vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;animation:fade .6s ease}
+.screen.active{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.stars{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;color:white;animation:twinkle 2s infinite alternate}
+@keyframes twinkle{to{opacity:.3;transform:scale(.7)}}
+h1{font-size:clamp(2.5rem,10vw,4rem);font-weight:normal;color:#7958a4;margin:12px 0}
+h2{font-weight:normal}
+p{line-height:1.8}
+.sub{color:#88749e;max-width:420px}
+.btn{border:0;border-radius:30px;background:#8868b5;color:white;padding:13px 23px;box-shadow:0 6px 20px #8868b544}
+.envelope{position:relative;width:270px;height:170px;margin:35px 0;background:#bda1e9;border-radius:7px;box-shadow:0 0 30px #aa8bdc99;cursor:pointer;animation:float 3s infinite ease-in-out}
+@keyframes float{50%{transform:translateY(-8px)}}
+.envelope:before{content:"";position:absolute;inset:0;border-style:solid;border-width:90px 135px 0;border-color:#e4d8fa transparent transparent;transform-origin:top;transition:transform .7s;z-index:2}
+.envelope.open:before{transform:rotateX(180deg)}
+.env-letter{position:absolute;inset:15px 15px 0;background:#fffaff;display:grid;place-items:center;color:#8868b5;border-radius:4px}
+.seal{position:absolute;z-index:3;top:62px;left:calc(50% - 22px);width:44px;height:44px;border-radius:50%;background:#9574c6;color:white;display:grid;place-items:center;font-size:24px;transition:opacity .3s}
+.envelope.open .seal{opacity:0}
+.paper{background:#fffaffdd;border:1px solid #e0d2f5;border-radius:18px;padding:25px;text-align:left;box-shadow:0 15px 40px #9276b522;width:100%;white-space:pre-line;line-height:1.9}
+.unfold{animation:unfold .9s ease both;transform-origin:top}
+@keyframes unfold{from{opacity:0;transform:perspective(600px) rotateX(-55deg) scaleY(.6)}to{opacity:1;transform:rotateX(0) scaleY(1)}}
+.arrow{margin:20px;border:1px solid #d9c7f0;border-radius:50%;width:48px;height:48px;background:#fffaff;color:#7958a4;font-size:23px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin:25px 0}
+.card{background:#fffaffbb;border:1px solid #dfd0f3;border-radius:15px;padding:18px 4px;min-height:105px;color:#7958a4}
+.card span{display:block;font-size:25px;margin-bottom:8px}
+.panel{display:none;width:100%;text-align:left;animation:fade .4s}
+.panel.active{display:block}
+.scrapbook{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.photo{background:white;padding:9px 9px 13px;box-shadow:0 5px 16px #9276b522;transform:rotate(-2deg)}
+.photo:nth-child(even){transform:rotate(2deg);margin-top:12px}
+.photo img{width:100%;height:140px;object-fit:cover;display:block}
+.photo label{display:block;text-align:center;font-size:13px;padding-top:10px;cursor:pointer}
+.photo input{display:none}
+.note{background:#fffaff;border:1px solid #e0d2f5;padding:20px;border-radius:15px;white-space:pre-wrap;line-height:1.9}
+.music{background:#fffaff;border-radius:18px;padding:24px;text-align:center;border:1px solid #e0d2f5}
+.disc{margin:15px auto;width:110px;height:110px;border-radius:50%;background:repeating-radial-gradient(circle,#8261ac 0 4px,#b29ad8 5px 8px);display:grid;place-items:center}
+.disc span{width:35px;height:35px;border-radius:50%;background:#eee5ff;border:8px solid #c5afe8}
+.hint{font-size:13px;color:#927eaa}
+footer{font-size:12px;color:#a08bb9;padding:25px}
+@media(max-width:360px){main{padding:15px 10px}.cards{gap:5px}.card{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<main>
+<section class="screen active" id="welcome">
+<p class="hint">A LITTLE SURPRISE, MADE WITH CARE</p>
+<div class="envelope" id="env" role="button" tabindex="0" aria-label="Open envelope">
+<div class="env-letter">A little note ♡</div>
+<div class="seal">♡</div>
+</div>
+<h1 style="font-size:2.6rem">You've got a<br>little surprise</h1>
+<p class="sub">A tiny world of wishes, memories and music is waiting for you.</p>
+<button class="btn" id="open">Touch to open ♡</button>
+<p class="hint" id="hint">Tap the envelope to begin</p>
+</section>
+
+<section class="screen" id="birthday">
+<p class="hint">TODAY IS ALL ABOUT YOU</p>
+<h1>Happy Birthday! ♡</h1>
+<p class="sub">Wishing you a day full of smiles, laughter and lovely surprises.</p>
+<div class="paper unfold">
+<p>Dear birthday star, ♡</p>
+Happy Birthday! I hope your special day brings you plenty of reasons to smile, moments that make you laugh, and memories you can look back on happily.
+
+May the year ahead bring you new adventures, kind people, exciting opportunities, and lots of little things that make ordinary days feel special. Keep being yourself, keep discovering what you love, and never forget that you deserve good things.
+
+I hope you enjoy your favourite treats, take lots of pictures, and spend the day doing things that make you happy. May some of your sweetest wishes come true this year!
+
+Have the loveliest birthday and an amazing year ahead!
+
+With warm wishes,
+Your friend ♡
+</div>
+<button class="arrow" id="next" aria-label="Next">↓</button>
+<p class="hint">Your little surprises are next</p>
+</section>
+
+<section class="screen" id="surprises">
+<p class="hint">THREE LITTLE THINGS, JUST FOR YOU</p>
+<h1 style="font-size:2.8rem">Open a surprise ♡</h1>
+<p class="sub">Tap each card to explore!</p>
+<div class="cards">
+<button class="card" data-show="photos"><span>♡</span>Photos</button>
+<button class="card" data-show="letter"><span>✉</span>Letter</button>
+<button class="card" data-show="song"><span>♫</span>Song</button>
+</div>
+
+<div class="panel" id="photos">
+<h2 style="text-align:center">Our little scrapbook ♡</h2>
+<div class="scrapbook" id="gallery"></div>
+<p class="hint" style="text-align:center">Tap a frame to add a photo from your device.</p>
+</div>
+
+<div class="panel" id="letter">
+<h2 style="text-align:center">A little extra note ♡</h2>
+<div class="note">I hope this new year of your life brings you peace, laughter, lovely surprises, and many reasons to feel proud of yourself.
+
+Keep shining in your own way. Happy Birthday! ♡</div>
+</div>
+
+<div class="panel" id="song">
+<h2 style="text-align:center">A song for you ♡</h2>
+<div class="music">
+<div class="disc" id="disc"><span></span></div>
+<p id="songname">Your chosen song</p>
+<p class="hint">Choose your audio file, then press play.</p>
+<input type="file" id="audiofile" accept="audio/*">
+<audio id="audio" controls style="width:100%"></audio>
+</div>
+</div>
+<button class="arrow" id="back" aria-label="Back">↑</button>
+</section>
+<footer style="text-align:center">made with a little extra care ♡</footer>
+</main>
+<script>
+for(let i=0;i<35;i++){let s=document.createElement('span');s.className='star';s.textContent=i%4===0?'♡':'✦';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.fontSize=(8+Math.random()*13)+'px';s.style.animationDelay=Math.random()*3+'s';document.getElementById('stars').append(s)}
+function screen(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));window.scrollTo({top:0,behavior:'smooth'})}
+let opened=false;
+function openEnv(){document.getElementById('env').classList.add('open');opened=true;document.getElementById('hint').textContent='Your surprise is opening…';document.getElementById('open').textContent='Continue ♡'}
+document.getElementById('env').onclick=openEnv;
+document.getElementById('env').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openEnv()}};
+document.getElementById('open').onclick=()=>{if(!opened)openEnv();else screen('birthday')};
+document.getElementById('next').onclick=()=>screen('surprises');
+document.getElementById('back').onclick=()=>{document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));screen('birthday')};
+document.querySelectorAll('[data-show]').forEach(b=>b.onclick=()=>{let p=document.getElementById(b.dataset.show),was=p.classList.contains('active');document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));if(!was){p.classList.add('active');setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'start'}),50)}});
+for(let i=1;i<=4;i++){let f=document.createElement('div');f.className='photo';let img=document.createElement('img');img.alt='Your memory';img.style.display='none';let input=document.createElement('input');input.type='file';input.accept='image/*';input.id='pic'+i;let label=document.createElement('label');label.htmlFor=input.id;label.textContent='＋ add a photo';input.onchange=()=>{let file=input.files[0];if(file){img.src=URL.createObjectURL(file);img.style.display='block';label.textContent='♡ memory added'}};f.append(img,input,label);document.getElementById('gallery').append(f)}
+const audio=document.getElementById('audio');
+document.getElementById('audiofile').onchange=e=>{let f=e.target.files[0];if(f){audio.src=URL.createObjectURL(f);document.getElementById('songname').textContent=f.name.replace(/\.[^.]+$/,'')}};
+audio.onplay=()=>document.getElementById('disc').style.animation='spin 4s linear infinite';
+audio.onpause=()=>document.getElementById('disc').style.animation='none';
+</script>
+</body>
+  </html>
+

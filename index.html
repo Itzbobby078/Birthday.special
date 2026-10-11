@@ -5,186 +5,596 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#eee5ff">
+<meta name="description" content="A little birthday gift filled with wishes, memories and music.">
 <title>A Little Birthday Gift ♡</title>
+
 <style>
 *{box-sizing:border-box}
-:root{--ink:#594574;--purple:#7958a4;--violet:#8868b5;--paper:#fffaff;--line:#e0d2f5;--muted:#927eaa}
+:root{
+  --ink:#594574;
+  --purple:#7958a4;
+  --violet:#8868b5;
+  --paper:#fffaff;
+  --line:#e0d2f5;
+  --muted:#927eaa;
+}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
-body{margin:0;min-height:100vh;font-family:Georgia,serif;color:var(--ink);background:radial-gradient(ellipse at top,#fffaff,#eee5ff 55%,#d9c8f4);overflow-x:hidden}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Georgia,serif;
+  color:var(--ink);
+  background:radial-gradient(ellipse at top,#fffaff,#eee5ff 55%,#d9c8f4);
+  overflow-x:hidden;
+}
 button,input{font:inherit}
 button{cursor:pointer}
-button:focus-visible,input:focus-visible{outline:3px solid #b69add;outline-offset:3px}
-main{max-width:680px;margin:auto;padding:22px 17px}
-.screen{display:none;min-height:88vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;animation:fade .6s ease}
+button:focus-visible,input:focus-visible{
+  outline:3px solid #b69add;
+  outline-offset:3px;
+}
+main{
+  position:relative;
+  z-index:1;
+  max-width:680px;
+  margin:auto;
+  padding:22px 17px;
+}
+.stars{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.star{
+  position:absolute;
+  color:#fff;
+  animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+  to{opacity:.3;transform:scale(.7)}
+}
+.screen{
+  display:none;
+  min-height:88vh;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  animation:fade .6s ease;
+}
 .screen.active{display:flex}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.stars{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-.star{position:absolute;color:white;animation:twinkle 2s infinite alternate}
-@keyframes twinkle{to{opacity:.3;transform:scale(.7)}}
-h1{font-size:clamp(2.5rem,10vw,4rem);font-weight:normal;color:var(--purple);line-height:1.1;margin:12px 0}
+@keyframes fade{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+h1{
+  font-size:clamp(2.5rem,10vw,4rem);
+  font-weight:normal;
+  color:var(--purple);
+  line-height:1.1;
+  margin:12px 0;
+}
 h2{font-weight:normal;color:var(--purple)}
 p{line-height:1.8}
-.sub{color:#88749e;max-width:430px;margin:8px auto 20px}
-.hint{font-size:13px;color:var(--muted);letter-spacing:.06em}
-.btn{border:0;border-radius:30px;background:linear-gradient(135deg,#9b7ac6,#8060ad);color:white;padding:13px 23px;box-shadow:0 6px 20px #8868b544;transition:transform .2s}
+.sub{
+  color:#88749e;
+  max-width:430px;
+  margin:8px auto 20px;
+}
+.hint{
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:.06em;
+}
+.btn{
+  border:0;
+  border-radius:30px;
+  background:linear-gradient(135deg,#9b7ac6,#8060ad);
+  color:white;
+  padding:13px 23px;
+  box-shadow:0 6px 20px #8868b544;
+  transition:transform .2s;
+}
 .btn:hover{transform:translateY(-2px)}
-.btn.secondary{background:#fffaff;color:var(--purple);border:1px solid var(--line);box-shadow:none}
-.envelope-wrap{padding:15px 0;filter:drop-shadow(0 0 18px #bda1e977);animation:float 3.5s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-8px)}}
-.envelope{position:relative;width:min(280px,78vw);height:178px;margin:20px auto 25px;background:#bda1e9;border-radius:8px;box-shadow:0 0 28px #aa8bdc99,0 0 55px #c6a9ef55;cursor:pointer;isolation:isolate}
-.env-letter{position:absolute;left:9%;right:9%;bottom:9px;height:135px;background:linear-gradient(#fffaff,#f5edff);border:1px solid #e5d8f7;border-radius:5px;display:grid;place-items:center;color:var(--violet);transition:transform .8s;z-index:1}
-.flap{position:absolute;inset:0;background:#e4d8fa;clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:top;transition:transform .75s;z-index:4}
-.seal{position:absolute;z-index:5;top:63px;left:calc(50% - 22px);width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#b99bdf,#8b68bb);color:white;display:grid;place-items:center;font-size:25px;box-shadow:0 3px 10px #7857a655;transition:opacity .3s}
+.btn.secondary{
+  background:#fffaff;
+  color:var(--purple);
+  border:1px solid var(--line);
+  box-shadow:none;
+}
+
+/* Glowing envelope */
+.envelope-wrap{
+  padding:15px 0;
+  filter:drop-shadow(0 0 18px #bda1e977);
+  animation:float 3.5s ease-in-out infinite;
+}
+@keyframes float{
+  50%{transform:translateY(-8px)}
+}
+.envelope{
+  position:relative;
+  width:min(280px,78vw);
+  height:178px;
+  margin:20px auto 25px;
+  background:#bda1e9;
+  border-radius:8px;
+  box-shadow:0 0 28px #aa8bdc99,0 0 55px #c6a9ef55;
+  cursor:pointer;
+  isolation:isolate;
+}
+.env-letter{
+  position:absolute;
+  left:9%;
+  right:9%;
+  bottom:9px;
+  height:135px;
+  background:linear-gradient(#fffaff,#f5edff);
+  border:1px solid #e5d8f7;
+  border-radius:5px;
+  display:grid;
+  place-items:center;
+  color:var(--violet);
+  transition:transform .8s;
+  z-index:1;
+}
+.flap{
+  position:absolute;
+  inset:0;
+  background:#e4d8fa;
+  clip-path:polygon(0 0,100% 0,50% 62%);
+  transform-origin:top;
+  transition:transform .75s;
+  z-index:4;
+}
+.seal{
+  position:absolute;
+  z-index:5;
+  top:63px;
+  left:calc(50% - 22px);
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 25%,#b99bdf,#8b68bb);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  box-shadow:0 3px 10px #7857a655;
+  transition:opacity .3s;
+}
 .envelope.open .flap{transform:rotateX(180deg)}
-.envelope.open .env-letter{transform:translateY(-55px);z-index:3}
+.envelope.open .env-letter{
+  transform:translateY(-55px);
+  z-index:3;
+}
 .envelope.open .seal{opacity:0}
 .envelope.open{animation:none}
 .open-note{font-size:.85rem;color:var(--muted)}
+
+/* Unfolding birthday letter */
 .letter-shell{width:100%;perspective:1000px}
-.paper{background:linear-gradient(145deg,#fffefd,#fff8ff 60%,#f7f0ff);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,5vw,32px);text-align:left;box-shadow:0 15px 40px #9276b522;width:100%;line-height:1.9;position:relative}
-.paper:before{content:"♡";position:absolute;right:16px;top:8px;color:#e2d2f5;font-size:28px}
+.paper{
+  background:linear-gradient(145deg,#fffefd,#fff8ff 60%,#f7f0ff);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:clamp(20px,5vw,32px);
+  text-align:left;
+  box-shadow:0 15px 40px #9276b522;
+  width:100%;
+  line-height:1.9;
+  position:relative;
+}
+.paper:before{
+  content:"♡";
+  position:absolute;
+  right:16px;
+  top:8px;
+  color:#e2d2f5;
+  font-size:28px;
+}
 .paper p{margin:0 0 15px}
 .paper .salutation{font-size:1.2rem;color:var(--purple)}
 .paper .signoff{margin-top:20px;color:var(--purple)}
 .unfold{animation:unfold .95s ease both;transform-origin:top}
-@keyframes unfold{from{opacity:0;transform:perspective(900px) rotateX(-45deg) scaleY(.8)}to{opacity:1;transform:perspective(900px) rotateX(0) scaleY(1)}}
-.arrow{margin:20px 0 6px;border:1px solid #d9c7f0;border-radius:50%;width:49px;height:49px;background:var(--paper);color:var(--purple);font-size:23px}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%;margin:23px 0 25px}
-.card{background:#fffaffcc;border:1px solid #dfd0f3;border-radius:17px;padding:18px 5px;min-height:110px;color:var(--purple);box-shadow:0 7px 20px #9276b510;transition:transform .2s}
-.card:hover,.card[aria-expanded="true"]{transform:translateY(-3px);border-color:#bba4df}
-.card span{display:block;font-size:28px;margin-bottom:9px;color:#9a7bc4}
-.card small{display:block;color:#a08bb9;font-size:.7rem;margin-top:5px}
-.panel{display:none;width:100%;text-align:left;animation:fade .4s}
+@keyframes unfold{
+  from{opacity:0;transform:perspective(900px) rotateX(-45deg) scaleY(.8)}
+  to{opacity:1;transform:perspective(900px) rotateX(0) scaleY(1)}
+}
+.arrow{
+  margin:20px 0 6px;
+  border:1px solid #d9c7f0;
+  border-radius:50%;
+  width:49px;
+  height:49px;
+  background:var(--paper);
+  color:var(--purple);
+  font-size:23px;
+}
+
+/* Surprise navigation */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  width:100%;
+  margin:23px 0 25px;
+}
+.card{
+  background:#fffaffcc;
+  border:1px solid #dfd0f3;
+  border-radius:17px;
+  padding:18px 5px;
+  min-height:110px;
+  color:var(--purple);
+  box-shadow:0 7px 20px #9276b510;
+  transition:transform .2s;
+}
+.card:hover,.card[aria-expanded="true"]{
+  transform:translateY(-3px);
+  border-color:#bba4df;
+}
+.card span{
+  display:block;
+  font-size:28px;
+  margin-bottom:9px;
+  color:#9a7bc4;
+}
+.card small{
+  display:block;
+  color:#a08bb9;
+  font-size:.7rem;
+  margin-top:5px;
+}
+.panel{
+  display:none;
+  width:100%;
+  text-align:left;
+  animation:fade .4s;
+  scroll-margin-top:15px;
+}
 .panel.active{display:block}
 .panel-heading{text-align:center;margin:4px 0 8px}
-.panel-intro{text-align:center;color:var(--muted);font-size:.9rem}
-.scrapbook{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.photo{background:white;padding:9px 9px 13px;box-shadow:0 7px 19px #9276b52b;border:1px solid #f4edf9;transform:rotate(-2deg);transition:transform .2s;min-width:0}
-.photo:nth-child(even){transform:rotate(2deg);margin-top:12px}
+.panel-intro{
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+/* Scrapbook */
+.scrapbook{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.photo{
+  background:white;
+  padding:9px 9px 13px;
+  box-shadow:0 7px 19px #9276b52b;
+  border:1px solid #f4edf9;
+  transform:rotate(-2deg);
+  transition:transform .2s;
+  min-width:0;
+}
+.photo:nth-child(even){
+  transform:rotate(2deg);
+  margin-top:12px;
+}
 .photo:hover{transform:rotate(0) translateY(-3px)}
-.photo button{display:block;width:100%;padding:0;border:0;background:#f2eaff}
-.photo img{width:100%;height:clamp(125px,38vw,190px);object-fit:cover;display:block}
-.placeholder{height:clamp(125px,38vw,190px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#9b82c0;background:linear-gradient(145deg,#f8f2ff,#e8dcfb);font-size:2rem}
+.photo-frame{
+  position:relative;
+  display:block;
+  width:100%;
+  padding:0;
+  border:0;
+  background:#f2eaff;
+  overflow:hidden;
+}
+.photo-frame img{
+  width:100%;
+  height:clamp(125px,38vw,190px);
+  object-fit:cover;
+  display:block;
+}
+.placeholder{
+  height:clamp(125px,38vw,190px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  color:#9b82c0;
+  background:linear-gradient(145deg,#f8f2ff,#e8dcfb);
+  font-size:2rem;
+}
 .placeholder small{font-size:.75rem}
-.photo label{display:block;text-align:center;font-size:.8rem;padding-top:10px;color:var(--purple);cursor:pointer}
+.photo label{
+  display:block;
+  text-align:center;
+  font-size:.8rem;
+  padding-top:10px;
+  color:var(--purple);
+  cursor:pointer;
+}
 .photo input[type=file]{display:none}
-.caption{width:100%;margin-top:8px;border:0;border-bottom:1px dashed #d8c5ed;background:transparent;color:var(--purple);text-align:center;font:italic .78rem Georgia,serif;padding:5px 2px}
-.note{background:linear-gradient(145deg,#fffaff,#f8f1ff);border:1px solid var(--line);padding:23px;border-radius:16px;line-height:1.9;box-shadow:0 8px 22px #9276b522}
+.caption{
+  width:100%;
+  margin-top:8px;
+  border:0;
+  border-bottom:1px dashed #d8c5ed;
+  background:transparent;
+  color:var(--purple);
+  text-align:center;
+  font:italic .78rem Georgia,serif;
+  padding:5px 2px;
+}
+.note{
+  background:linear-gradient(145deg,#fffaff,#f8f1ff);
+  border:1px solid var(--line);
+  padding:23px;
+  border-radius:16px;
+  line-height:1.9;
+  box-shadow:0 8px 22px #9276b522;
+}
 .note p{margin:0 0 14px}
-.music{background:linear-gradient(150deg,#fffaff,#f5edff);border-radius:20px;padding:23px 18px;text-align:center;border:1px solid var(--line);box-shadow:0 10px 28px #9276b522}
-.disc{margin:17px auto;width:116px;height:116px;border-radius:50%;background:repeating-radial-gradient(circle,#8261ac 0 3px,#b29ad8 4px 7px);display:grid;place-items:center;box-shadow:0 0 0 8px #e9def8,0 0 25px #bda1e977}
-.disc span{width:34px;height:34px;border-radius:50%;background:#eee5ff;border:8px solid #c5afe8}
+.gallery-tip,.music-footnote{
+  font-size:.78rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+/* Music player */
+.music{
+  background:linear-gradient(150deg,#fffaff,#f5edff);
+  border-radius:20px;
+  padding:23px 18px;
+  text-align:center;
+  border:1px solid var(--line);
+  box-shadow:0 10px 28px #9276b522;
+}
+.disc{
+  margin:17px auto;
+  width:116px;
+  height:116px;
+  border-radius:50%;
+  background:repeating-radial-gradient(circle,#8261ac 0 3px,#b29ad8 4px 7px);
+  display:grid;
+  place-items:center;
+  box-shadow:0 0 0 8px #e9def8,0 0 25px #bda1e977;
+}
+.disc span{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#eee5ff;
+  border:8px solid #c5afe8;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-.song-title{font-size:1.12rem;color:var(--purple);overflow-wrap:anywhere}
-.song-subtitle,.music-footnote,.gallery-tip{font-size:.78rem;color:var(--muted);line-height:1.7}
-.file-label{display:inline-block;border:1px solid #d9c7f0;border-radius:25px;background:#fffaff;color:var(--purple);padding:10px 15px;font-size:.85rem;margin:8px 0 15px;cursor:pointer}
-#audiofile{display:block;width:100%;font-size:.8rem;margin:12px auto}
+.disc.playing{animation:spin 3s linear infinite}
+.song-title{
+  font-size:1.12rem;
+  color:var(--purple);
+  overflow-wrap:anywhere;
+}
+.song-subtitle{
+  font-size:.78rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+.file-label{
+  display:inline-block;
+  border:1px solid #d9c7f0;
+  border-radius:25px;
+  background:#fffaff;
+  color:var(--purple);
+  padding:10px 15px;
+  font-size:.85rem;
+  margin:8px 0 15px;
+  cursor:pointer;
+}
+#audiofile{
+  display:block;
+  width:100%;
+  font-size:.8rem;
+  margin:12px auto;
+}
 audio{display:block;width:100%;margin:5px auto}
 .back-row{display:flex;justify-content:center;margin:20px 0 5px}
-footer{font-size:12px;color:#a08bb9;padding:25px;text-align:center}
-.lightbox{position:fixed;inset:0;z-index:20;background:#302344df;display:none;align-items:center;justify-content:center;padding:20px}
+footer{
+  position:relative;
+  z-index:1;
+  font-size:12px;
+  color:#a08bb9;
+  padding:25px;
+  text-align:center;
+}
+
+/* Full-size photo preview */
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  background:#302344df;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 .lightbox.active{display:flex}
-.lightbox-inner{width:min(520px,100%);background:#fffaff;border-radius:18px;padding:12px}
-.lightbox img{display:block;width:100%;max-height:72vh;object-fit:contain;border-radius:10px;background:#eee5ff}
-.lightbox button{display:block;margin:10px auto 2px;border:1px solid var(--line);border-radius:25px;background:#f4edff;color:var(--purple);padding:9px 18px}
-@media(max-width:380px){main{padding:15px 11px}.cards{gap:6px}.card{font-size:.83rem;padding:14px 3px;min-height:102px}.paper{padding:20px}.scrapbook{gap:12px}.photo{padding:7px 7px 11px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+.lightbox-inner{
+  width:min(520px,100%);
+  background:#fffaff;
+  border-radius:18px;
+  padding:12px;
+}
+.lightbox img{
+  display:block;
+  width:100%;
+  max-height:72vh;
+  object-fit:contain;
+  border-radius:10px;
+  background:#eee5ff;
+}
+.lightbox button{
+  display:block;
+  margin:10px auto 2px;
+  border:1px solid var(--line);
+  border-radius:25px;
+  background:#f4edff;
+  color:var(--purple);
+  padding:9px 18px;
+}
+
+@media(max-width:380px){
+  main{padding:15px 11px}
+  .cards{gap:6px}
+  .card{font-size:.83rem;padding:14px 3px;min-height:102px}
+  .paper{padding:20px}
+  .scrapbook{gap:12px}
+  .photo{padding:7px 7px 11px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="stars" id="stars"></div>
+<div class="stars" id="stars" aria-hidden="true"></div>
+
 <main>
-<section class="screen active" id="welcome">
-<p class="hint">A LITTLE SURPRISE, MADE WITH CARE</p>
-<div class="envelope-wrap">
-<div class="envelope" id="env" role="button" tabindex="0" aria-label="Open envelope">
-<div class="env-letter">a little note ♡</div>
-<div class="flap"></div>
-<div class="seal">♡</div>
-</div>
-</div>
-<h1 style="font-size:2.7rem">You've got a<br>little surprise</h1>
-<p class="sub">A tiny world of wishes, memories and music is waiting for you.</p>
-<button class="btn" id="open" type="button">Touch to open ♡</button>
-<p class="open-note" id="hint">Tap the envelope to begin</p>
-</section>
+  <!-- WELCOME AND ENVELOPE -->
+  <section class="screen active" id="welcome">
+    <p class="hint">A LITTLE SURPRISE, MADE WITH CARE</p>
 
-<section class="screen" id="birthday">
-<p class="hint">TODAY IS ALL ABOUT YOU</p>
-<h1>Happy Birthday! ♡</h1>
-<p class="sub">A little reminder that you make this world sweeter just by being in it.</p>
-<div class="letter-shell">
-<article class="paper unfold">
-<p class="salutation">Dear birthday bestie, ♡</p>
-<p>Happy Birthday to one of the sweetest people I’m lucky to call my friend! I hope today wraps you up in happiness, fills your camera roll with lovely memories, and gives you a hundred little reasons to smile.</p>
-<p>I wish you days that feel soft and sunny, even when life gets a little cloudy. I hope you always find people who understand your heart, moments that make you laugh until your cheeks hurt, and dreams that make you excited for what comes next.</p>
-<p>Please never forget that you don’t have to be perfect to be wonderful. The little things that make you <em>you</em> are worth celebrating, today and every day. Keep being kind, curious, and making room for the things that make your heart happy.</p>
-<p>May this new chapter bring you sweet surprises, brave new beginnings, peaceful nights, fun adventures, and wishes that come true one by one. I hope you collect so many memories that make you think, “That was a really lovely time.”</p>
-<p>Eat something delicious, take lots of pictures, laugh a little louder, and enjoy being celebrated. You deserve a birthday that feels as special as the happiness you bring to the people around you.</p>
-<p class="signoff">Sending you the biggest birthday wishes and a pocketful of lavender hearts,<br>Your friend, always ♡</p>
-</article>
-</div>
-<button class="arrow" id="next" type="button" aria-label="Next">↓</button>
-<p class="hint">Your little surprises are next</p>
-</section>
+    <div class="envelope-wrap">
+      <div class="envelope" id="env" role="button" tabindex="0" aria-label="Open envelope">
+        <div class="env-letter">a little note ♡</div>
+        <div class="flap"></div>
+        <div class="seal">♡</div>
+      </div>
+    </div>
 
-  
-<section class="screen" id="surprises">
-<p class="hint">THREE LITTLE THINGS, JUST FOR YOU</p>
-<h1 style="font-size:2.8rem">Open a surprise ♡</h1>
-<p class="sub">Choose whichever little corner you want to visit first.</p>
+    <h1 style="font-size:2.7rem">You've got a<br>little surprise</h1>
+    <p class="sub">A tiny world of wishes, memories and music is waiting for you.</p>
+    <button class="btn" id="open" type="button">Touch to open ♡</button>
+    <p class="open-note" id="hint">Tap the envelope to begin</p>
+  </section>
 
-<div class="cards">
-<button class="card" data-show="photos" aria-expanded="false" type="button"><span>♡</span>Photos<small>little memories</small></button>
-<button class="card" data-show="letter" aria-expanded="false" type="button"><span>✉</span>Letter<small>one more note</small></button>
-<button class="card" data-show="song" aria-expanded="false" type="button"><span>♫</span>Song<small>a tune for you</small></button>
-</div>
+  <!-- BIRTHDAY LETTER -->
+  <section class="screen" id="birthday">
+    <p class="hint">TODAY IS ALL ABOUT YOU</p>
+    <h1>Happy Birthday! ♡</h1>
+    <p class="sub">A little reminder that you make this world sweeter just by being in it.</p>
 
-<section class="panel" id="photos">
-<h2 class="panel-heading">Our little scrapbook ♡</h2>
-<p class="panel-intro">Four little frames for favourite memories.</p>
-<div class="scrapbook" id="gallery"></div>
-<p class="gallery-tip">Tap a photo to see it bigger. Choose “add a photo” to pick one from your device, and write a tiny caption underneath. ♡<br>Photos selected here are previews in this browser. Add image files to your website repository to share them with everyone.</p>
-</section>
+    <div class="letter-shell">
+      <article class="paper unfold">
+        <p class="salutation">Dear birthday bestie, ♡</p>
 
-<section class="panel" id="letter">
-<h2 class="panel-heading">A little extra note ♡</h2>
-<div class="note">
-<p>Just in case you need a little extra birthday sweetness: I hope this year is gentle with you and gives you so many reasons to feel proud of yourself.</p>
-<p>I hope your favourite songs find you at the right time, your smallest wishes turn into lovely surprises, and ordinary days become memories you’ll want to keep.</p>
-<p>Thank you for being you. Here’s to more laughs, more pictures, more silly moments, and more wonderful memories still waiting to happen.</p>
-<p>Keep this tiny reminder close: you matter, you’re appreciated, and you deserve good things. Happy Birthday, friend. ♡</p>
-</div>
-</section>
+        <p>Happy Birthday to one of the sweetest people I'm lucky to call my friend! I hope today wraps you up in happiness, fills your camera roll with lovely memories, and gives you a hundred little reasons to smile.</p>
 
-<section class="panel" id="song">
-<h2 class="panel-heading">A song for you ♡</h2>
-<p class="panel-intro">A little soundtrack for your special day.</p>
-<div class="music">
-<div class="disc" id="disc"><span></span></div>
-<p class="song-title" id="songname">Your chosen song</p>
-<p class="song-subtitle">a little music, a little magic</p>
-<label class="file-label" for="audiofile">Choose your song ♫</label>
-<input type="file" id="audiofile" accept="audio/*">
-<audio id="audio" controls preload="none"></audio>
-<p class="music-footnote">Choose an audio file from your device to preview it here. To let your friend hear it too, add the audio file to your GitHub repository and link it in the code.</p>
-</div>
-</section>
+        <p>I wish you days that feel soft and sunny, even when life gets a little cloudy. I hope you always find people who understand your heart, moments that make you laugh until your cheeks hurt, and dreams that make you excited for what comes next.</p>
 
-<div class="back-row">
-<button class="btn secondary" id="back" type="button">Back to letter ↑</button>
-</div>
-</section>
+        <p>Please never forget that you don't have to be perfect to be wonderful. The little things that make you <em>you</em> are worth celebrating, today and every day. Keep being kind, curious, and making room for the things that make your heart happy.</p>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
-<div class="lightbox-inner">
-<img id="lightbox-image" alt="Larger scrapbook memory">
-<button id="lightbox-close" type="button">Close ♡</button>
-</div>
-</div>
+        <p>May this new chapter bring you sweet surprises, brave new beginnings, peaceful nights, fun adventures, and wishes that come true one by one. I hope you collect so many memories that make you think, "That was a really lovely time."</p>
+
+        <p>Eat something delicious, take lots of pictures, laugh a little louder, and enjoy being celebrated. You deserve a birthday that feels as special as the happiness you bring to the people around you.</p>
+
+        <p class="signoff">Sending you the biggest birthday wishes and a pocketful of lavender hearts,<br>Your friend, always ♡</p>
+      </article>
+    </div>
+
+    <button class="arrow" id="next" type="button" aria-label="Next">↓</button>
+    <p class="hint">Your little surprises are next</p>
+  </section>
+
+  <!-- SURPRISES -->
+  <section class="screen" id="surprises">
+    <p class="hint">THREE LITTLE THINGS, JUST FOR YOU</p>
+    <h1 style="font-size:2.8rem">Open a surprise ♡</h1>
+    <p class="sub">Choose whichever little corner you want to visit first.</p>
+
+    <div class="cards">
+      <button class="card" data-show="photos" aria-expanded="false" type="button">
+        <span>♡</span>Photos<small>little memories</small>
+      </button>
+      <button class="card" data-show="letter" aria-expanded="false" type="button">
+        <span>✉</span>Letter<small>one more note</small>
+      </button>
+      <button class="card" data-show="song" aria-expanded="false" type="button">
+        <span>♫</span>Song<small>a tune for you</small>
+      </button>
+    </div>
+
+    <!-- SCRAPBOOK -->
+    <section class="panel" id="photos">
+      <h2 class="panel-heading">Our little scrapbook ♡</h2>
+      <p class="panel-intro">Four little frames for favourite memories.</p>
+
+      <div class="scrapbook" id="gallery"></div>
+
+      <p class="gallery-tip">
+        Tap a photo to see it bigger. Choose "Add a photo" to pick one from your device, and write a tiny caption underneath. ♡<br>
+        Photos selected here are previews in this browser. To share the same photos with your friend, add the image files to your website repository.
+      </p>
+    </section>
+
+    <!-- EXTRA LETTER -->
+    <section class="panel" id="letter">
+      <h2 class="panel-heading">A little extra note ♡</h2>
+      <div class="note">
+        <p>Just in case you need a little extra birthday sweetness: I hope this year is gentle with you and gives you so many reasons to feel proud of yourself.</p>
+        <p>I hope your favourite songs find you at the right time, your smallest wishes turn into lovely surprises, and ordinary days become memories you'll want to keep.</p>
+        <p>Thank you for being you. Here's to more laughs, more pictures, more silly moments, and more wonderful memories still waiting to happen.</p>
+        <p>Keep this tiny reminder close: you matter, you're appreciated, and you deserve good things. Happy Birthday, friend. ♡</p>
+      </div>
+    </section>
+
+    <!-- PERSONAL MUSIC -->
+    <section class="panel" id="song">
+      <h2 class="panel-heading">A song for you ♡</h2>
+      <p class="panel-intro">A little soundtrack for your special day.</p>
+
+      <div class="music">
+        <div class="disc" id="disc"><span></span></div>
+        <p class="song-title" id="songname">Your chosen song</p>
+        <p class="song-subtitle">a little music, a little magic</p>
+
+        <label class="file-label" for="audiofile">Choose your song ♫</label>
+        <input type="file" id="audiofile" accept="audio/*" aria-label="Choose an audio file">
+
+        <audio id="audio" controls preload="none"></audio>
+
+        <p class="music-footnote">
+          Choose an audio file from your device to preview it here. To let your friend hear it too, add the audio file to GitHub and connect it in the code.
+        </p>
+      </div>
+    </section>
+
+    <div class="back-row">
+      <button class="btn secondary" id="back" type="button">Back to letter ↑</button>
+    </div>
+  </section>
+
+  <!-- PHOTO LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+    <div class="lightbox-inner">
+      <img id="lightbox-image" alt="Larger scrapbook memory">
+      <button id="lightbox-close" type="button">Close ♡</button>
+    </div>
+  </div>
+</main>
 
 <footer>made with a little extra care ♡</footer>
-
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -192,213 +602,153 @@ const $ = (id) => document.getElementById(id);
 const screens = document.querySelectorAll(".screen");
 const panels = document.querySelectorAll(".panel");
 
+// Navigation between the main screens
 function showScreen(id) {
-  screens.forEach((item) => {
-    item.classList.toggle("active", item.id === id);
+  screens.forEach((screen) => {
+    screen.classList.toggle("active", screen.id === id);
   });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-// Dreamy floating hearts and stars
+// Floating hearts and dots
 const stars = $("stars");
 
 if (stars) {
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 30; i++) {
     const star = document.createElement("span");
+    star.className = "star";
     star.textContent = i % 3 === 0 ? "♡" : "·";
     star.style.left = Math.random() * 100 + "%";
     star.style.top = Math.random() * 100 + "%";
     star.style.animationDelay = Math.random() * 5 + "s";
+    star.style.animationDuration = (1.5 + Math.random() * 3) + "s";
     star.style.fontSize = (12 + Math.random() * 15) + "px";
     stars.appendChild(star);
   }
 }
 
-// Opening envelope
+// Envelope opening interaction
 let envelopeOpened = false;
 
 function openEnvelope() {
   const envelope = $("env");
-  const hint = $("hint");
 
   if (!envelopeOpened) {
     envelopeOpened = true;
     envelope.classList.add("open");
 
-    if (hint) {
-      hint.textContent = "A little love, just for you ♡";
-    }
-
+    $("hint").textContent = "A little love, just for you ♡";
     $("open").textContent = "Read your birthday letter ♡";
   } else {
     showScreen("birthday");
   }
 }
 
-$("open")?.addEventListener("click", openEnvelope);
+$("open").addEventListener("click", openEnvelope);
 
-$("env")?.addEventListener("click", () => {
+$("env").addEventListener("click", () => {
   if (!envelopeOpened) openEnvelope();
 });
 
-$("env")?.addEventListener("keydown", (event) => {
+$("env").addEventListener("keydown", (event) => {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     if (!envelopeOpened) openEnvelope();
   }
 });
 
-// Birthday navigation
-$("next")?.addEventListener("click", () => {
+// Go from birthday letter to surprises
+$("next").addEventListener("click", () => {
   showScreen("surprises");
 });
 
-$("back")?.addEventListener("click", () => {
-  panels.forEach((panel) => panel.classList.remove("visible"));
+// Return to the birthday letter
+$("back").addEventListener("click", () => {
+  panels.forEach((panel) => panel.classList.remove("active"));
+
   document.querySelectorAll("[data-show]").forEach((button) => {
     button.setAttribute("aria-expanded", "false");
   });
+
   showScreen("birthday");
 });
 
-// Surprise section buttons
+// Open and close surprise panels
 document.querySelectorAll("[data-show]").forEach((button) => {
   button.addEventListener("click", () => {
-    const targetId = button.dataset.show;
-    const target = $(targetId);
-
+    const target = $(button.dataset.show);
     if (!target) return;
 
-    const wasVisible = target.classList.contains("visible");
+    const wasOpen = target.classList.contains("active");
 
-    panels.forEach((panel) => {
-      panel.classList.remove("visible");
-    });
+    panels.forEach((panel) => panel.classList.remove("active"));
 
     document.querySelectorAll("[data-show]").forEach((item) => {
       item.setAttribute("aria-expanded", "false");
     });
 
-    if (!wasVisible) {
-      target.classList.add("visible");
+    if (!wasOpen) {
+      target.classList.add("active");
       button.setAttribute("aria-expanded", "true");
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+
+      setTimeout(() => {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 50);
     }
   });
 });
 
-// Scrapbook photo uploads
-document.querySelectorAll(".photo").forEach((frame) => {
-  const input = frame.querySelector('input[type="file"]');
-  const image = frame.querySelector("img");
-  const placeholder = frame.querySelector(".placeholder");
-  const caption = frame.querySelector(".caption");
+// Build four scrapbook photo frames
+const gallery = $("gallery");
 
-  if (input) {
-    input.addEventListener("change", () => {
-      const file = input.files && input.files[0];
-      if (!file) return;
+for (let i = 1; i <= 4; i++) {
+  const frame = document.createElement("article");
+  frame.className = "photo";
 
-      if (!file.type.startsWith("image/")) {
-        alert("Please choose an image ♡");
-        input.value = "";
-        return;
-      }
+  const uploadId = "photo-upload-" + i;
 
-      const imageURL = URL.createObjectURL(file);
-      image.src = imageURL;
-      image.hidden = false;
+  frame.innerHTML = `
+    <button class="photo-frame" type="button" aria-label="Preview scrapbook photo ${i}">
+      <div class="placeholder">
+        ♡
+        <small>Add a memory</small>
+      </div>
+      <img alt="Scrapbook memory ${i}" hidden>
+    </button>
 
-      if (placeholder) placeholder.hidden = true;
+    <label for="${uploadId}">＋ Add a photo</label>
+    <input id="${uploadId}" type="file" accept="image/*" aria-label="Choose scrapbook photo ${i}">
 
-      frame.classList.add("has-image");
-      frame.dataset.imageURL = imageURL;
-    });
-  }
+    <input class="caption" type="text" maxlength="100"
+      placeholder="write a little caption ♡"
+      aria-label="Caption for photo ${i}">
+  `;
 
-  if (caption) {
-    caption.addEventListener("input", () => {
-      caption.title = caption.value;
-    });
-  }
-
-  frame.addEventListener("click", (event) => {
-    if (event.target.closest("input, label, textarea")) return;
-
-    if (image && !image.hidden && image.src) {
-      $("lightbox-image").src = image.src;
-      $("lightbox").classList.add("visible");
-    }
-  });
-});
-
-// Close photo preview
-function closeLightbox() {
-  $("lightbox")?.classList.remove("visible");
+  gallery.appendChild(frame);
 }
 
-$("lightbox-close")?.addEventListener("click", closeLightbox);
+// Handle photo uploads and preview
+document.querySelectorAll(".photo").forEach((frame) => {
+  const fileInput = frame.querySelector('input[type="file"]');
+  const previewButton = frame.querySelector(".photo-frame");
+  const image = frame.querySelector("img");
+  const placeholder = frame.querySelector(".placeholder");
 
-$("lightbox")?.addEventListener("click", (event) => {
-  if (event.target === $("lightbox")) closeLightbox();
-});
+  let imageURL = null;
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeLightbox();
-});
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) return;
 
-// Personal music upload
-const audioFile = $("audiofile");
-const audio = $("audio");
-const songName = $("songname");
-const disc = $("disc");
+    if (!file.type.startsWith("image/")) {
+      alert("Please choose an image ♡");
+      fileInput.value = "";
+      return;
+    }
 
-let currentSongURL = null;
-
-audioFile?.addEventListener("change", () => {
-  const file = audioFile.files && audioFile.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("audio/")) {
-    alert("Please choose an audio file ♡");
-    audioFile.value = "";
-    return;
-  }
-
-  if (currentSongURL) {
-    URL.revokeObjectURL(currentSongURL);
-  }
-
-  currentSongURL = URL.createObjectURL(file);
-  audio.src = currentSongURL;
-  audio.load();
-
-  if (songName) {
-    songName.textContent = file.name.replace(/\.[^/.]+$/, "");
-  }
-
-  if (disc) disc.classList.remove("playing");
-});
-
-audio?.addEventListener("play", () => {
-  disc?.classList.add("playing");
-});
-
-audio?.addEventListener("pause", () => {
-  disc?.classList.remove("playing");
-});
-
-audio?.addEventListener("ended", () => {
-  disc?.classList.remove("playing");
-});
-
-// Start at the welcome screen
-showScreen("welcome");
-</script>
-
-</body>
-</html>
+    if (imageURL) URL.revokeObjectURL(im
 

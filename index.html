@@ -932,6 +932,24 @@ Here's to your next chapter and all the lovely memories still waiting to happen.
       const photoInput = document.getElementById("photoInput");
       const scrapbook = document.getElementById("scrapbook");
       const emptyGallery = document.getElementById("emptyGallery");
+      const birthdayPhotos = [
+  "Screenshot_20260923-002305_Instagram.png",
+  "Snapchat-1549736048.jpg",
+  "Snapchat-2034412849.jpg",
+  "Snapchat-928590029.jpg"
+];
+
+birthdayPhotos.forEach(function (src) {
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = "A birthday memory ♡";
+  img.style.width = "100%";
+  img.style.borderRadius = "12px";
+  img.style.marginBottom = "12px";
+  scrapbook.appendChild(img);
+});
+
+emptyGallery.style.display = "none";
 
       const musicInput = document.getElementById("musicInput");
       const musicDisc = document.getElementById("musicDisc");
